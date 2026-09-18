@@ -7,10 +7,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; margin: 0; padding: 0; }
-        body { background-color: #f7f9fa; color: #333; padding: 20px; direction: rtl; }
-        .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; }
-        .header h1 { color: #1e3a8a; font-size: 28px; }
+        
+        body { 
+            background-color: #f7f9fa; 
+            color: #333; 
+            padding: 20px; 
+            direction: rtl;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* خلفية اللوجو المائية للموقع */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 320px;
+            background-image: url('https://raw.githubusercontent.com/hasanneom2-max/Talla-laundry/main/logo.png'); /* رابط اللوجو الخاص بك */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            opacity: 0.05; /* درجة شفافية خفيفة جداً كي لا تؤثر على القراءة */
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        
+        /* رأس الصفحة مع اللوجو */
+        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #f0f0f0; padding-bottom: 20px; }
+        .header-logo { width: 90px; height: auto; margin-bottom: 10px; border-radius: 50%; }
+        .header h1 { color: #1e3a8a; font-size: 26px; }
         .header p { color: #059669; font-weight: bold; margin-top: 5px; }
         
         .items-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 30px; }
@@ -31,14 +61,22 @@
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; outline: none; }
         .form-group input:focus, .form-group textarea:focus { border-color: #2563eb; }
 
-        .btn-send { width: 100%; padding: 15px; background: #25d366; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        /* الأزرار */
+        .btn-send { width: 100%; padding: 15px; background: #25d366; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; }
         .btn-send:hover { background: #1ebc57; }
+
+        /* قسم الشكاوى والمقترحات */
+        .complaints-section { text-align: center; margin-top: 25px; padding-top: 15px; border-top: 1px dashed #e5e7eb; }
+        .btn-complaint { display: inline-block; color: #dc2626; text-decoration: none; font-weight: bold; font-size: 14px; padding: 8px 16px; border: 1px solid #fca5a5; border-radius: 8px; background-color: #fef2f2; transition: all 0.3s ease; }
+        .btn-complaint:hover { background-color: #fee2e2; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
+        <!-- اللوجو في رأس الصفحة -->
+        <img src="https://raw.githubusercontent.com/hasanneom2-max/Talla-laundry/main/logo.png" alt="Talla Logo" class="header-logo" onerror="this.style.display='none'">
         <h1>🧺 سبت الغسيل - طلّة | Talla</h1>
         <p>حدد ملابسك وإحنا نجيلك لحد باب البيت</p>
     </div>
@@ -80,6 +118,13 @@
     <button class="btn-send" onclick="sendToWhatsApp()">
         <span>إرسال الطلب عبر الواتساب</span>
     </button>
+
+    <!-- رابط الشكاوى والمقترحات -->
+    <div class="complaints-section">
+        <a href="https://wa.me/201003931495?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9%20%D8%B7%D9%84%D9%91%D8%A9%D9%80%D8%8C%20%D9%84%D8%AF%D9%8A%20%D8%B4%D9%83%D9%88%D9%89%20%D8%A3%D9%88%20%D9%85%D9%82%D8%AA%D8%B1%D8%AD%3A" target="_blank" class="btn-complaint">
+            ⚠️ للتواصل مع الإدارة مباشرة (شكاوى ومقترحات)
+        </a>
+    </div>
 </div>
 
 <script>
@@ -162,7 +207,7 @@
             itemsText += `  - ${key}: ${basket[key]} قطعة%0A`;
         });
 
-        const myPhoneNumber = "201283540056"; // رقم الواتساب الخاص بك
+        const myPhoneNumber = "201283540056"; // رقم الطلبات
 
         let message = `*طلب جديد من مغسلة طلّة | Talla* 🧺%0A%0A`;
         message += `*تفاصيل الملابس:*%0A${itemsText}%0A`;
